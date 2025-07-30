@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.menu {
+    height: 100%;
+    box-shadow: 25%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.menu p {
+    font-style: italic;
+    color: gray;
+}
+
+#iniciar {
+    padding: 30px;
+    background-color: green;
+    border-color:gray;
+    font-family:"Nova Square", sans-serif;
+    font-size: 75px;
+    border-radius: 10%;
+    font-style:normal;
+
+}
+
+.menu button {
+    padding: 10px;
+    box-shadow: 5px;
+    background-color: gray;
+    border-color: gray;
+    border-radius: 10px;
+    font-family:"Nova Square", sans-serif;
+    font-size: 25px;
+    font-style: italic;
+    
+}
+
+.janela {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.janela-ranking{
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.comojogar {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    text-align: center;
+    position: relative;
+}
+
+.comojogar p {
+    padding: 10px;
+}
+
+.fechar {
+    color: gray;
+    font-size: 20px;
+    display: block;
+    justify-content: top;
+    position: absolute;
+    cursor: pointer;
+    top: 5px;
+    right: 10px;
+}
+
+.comojogar {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: left;
+    position: relative;
+}
+
+.comojohar h2 {
+    text-align: center;
+}

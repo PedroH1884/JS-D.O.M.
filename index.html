@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Desafio das Cores</title>
+</head>
+<body>
+    <div class="menu">
+        <h1>Jogo das Cores</h1>
+        <p>"Para iniciar aperte o botão  Jogar abaixo"</p><br>
+        <button id="rank">Tabela de Rankings</button><br>
+        <button id="comojogar">Como jogar</button><br><br>
+        <button id="iniciar" onclick="window.location.href='jogocores'">JOGAR</button>
+    </div>
+
+    <div id="janela1" class="janela">
+        <div class="janela-ranking">
+            <span class="fechar">x</span>
+            <h2>Tabela de Rankings</h2>
+            <ul id="ranking">
+                <li>Jogador 1 - 100 pontos</li>
+                <li>Jogador 2 - 80 pontos</li>
+                <li>Jogador 3 - 60 pontos</li>
+            </ul>
+        </div>
+    </div>
+    <div id="janela2" class="janela">
+        <div class="comojogar">
+            <span class="fechar">x</span>
+            <h2>Como jogar</h2>
+            <p>-Para iniciar o jogador deve colocar seu nome e apertar no botão Jogar na tela de inicio.</p>
+            <p>-O nome de uma cor aleatoria ira aparecer na parte superior e o jogador deve selecionar a cor correspondente a ela no grid no tempo determinado.</p>  
+            <p>-Ao perder o jogador tem a opção de começar novamente ou visualizar seu ranking.</p>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
