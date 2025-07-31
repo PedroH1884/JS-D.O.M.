@@ -1,150 +1,174 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const menu = document.querySelector('.menu');
-    const gameScreen = document.getElementById('game');
-    const gameOverScreen = document.getElementById('game-over-screen');
-    const startButton = document.getElementById('iniciar');
-    const nameInput = document.getElementById('nome');
-    const scoreDisplay = document.getElementById('score');
-    const timeDisplay = document.getElementById('time');
-    const colorNameDisplay = document.getElementById('color-name');
-    const cells = document.querySelectorAll('.cell');
-    const finalScoreDisplay = document.getElementById('final-score');
-    const playAgainButton = document.getElementById('play-again-button');
-    const viewRankButton = document.getElementById('view-rank-button');
-    const rankModal = document.getElementById('janela1');
-    const howToPlayModal = document.getElementById('janela2');
-    const rankButton = document.getElementById('rank');
-    const howToPlayButton = document.getElementById('comojogar');
-    const closeButtons = document.querySelectorAll('.fechar');
-    const rankingList = document.getElementById('ranking-list');
+    const telaJogo = document.getElementById('game');
+    const telaFimDeJogo = document.getElementById('game-over-screen');
+    const botaoIniciar = document.getElementById('iniciar');
+    const campoNome = document.getElementById('nome');
+    const exibicaoPontos = document.getElementById('score');
+    const exibicaoTempo = document.getElementById('time');
+    const exibicaoNomeCor = document.getElementById('color-name');
+    const celulas = document.querySelectorAll('.cell');
+    
+    const exibicaoPontosFinais = document.getElementById('final-score');
+    const botaoJogarNovamente = document.getElementById('play-again-button');
+    const botaoVerRanking = document.getElementById('view-rank-button');
+    const modalRanking = document.getElementById('janela1');
+    const modalComoJogar = document.getElementById('janela2');
+    const botaoRanking = document.getElementById('rank');
+    const botaoComoJogar = document.getElementById('comojogar');
+    const botoesFechar = document.querySelectorAll('.fechar');
+    const listaRanking = document.getElementById('ranking-list');
 
-    let score = 0, timeLeft = 5, initialTime = 5;
-    let timerInterval, currentColor = '', userName = '';
+    let pontos = 0;
+    let tempoRestante = 5;
+    let tempoInicial = 5;
+    let intervaloDoTimer;
+    let corAtual = '';
+    let nomeJogador = '';
 
-    function saveScore(name, score) {
+    function salvarPontuacao(nome, pontuacao) {
         const rankings = JSON.parse(localStorage.getItem('colorGameRankings')) || [];
-        rankings.push({ name, score });
+        rankings.push({ name: nome, score: pontuacao });
         rankings.sort((a, b) => b.score - a.score);
         const top10 = rankings.slice(0, 10);
         localStorage.setItem('colorGameRankings', JSON.stringify(top10));
     }
 
-    function updateRankingDisplay() {
+    function atualizarExibicaoRanking() {
         const rankings = JSON.parse(localStorage.getItem('colorGameRankings')) || [];
-        rankingList.innerHTML = '';
+        listaRanking.innerHTML = '';
+
         if (rankings.length === 0) {
-            rankingList.innerHTML = '<li>Ninguém jogou ainda. Seja o primeiro!</li>';
+            listaRanking.innerHTML = '<li>Ninguém jogou ainda. Seja o primeiro!</li>';
             return;
         }
-        rankings.forEach((player, index) => {
-            const li = document.createElement('li');
-            li.textContent = `${index + 1}. ${player.name} - ${player.score} pontos`;
-            rankingList.appendChild(li);
+
+        rankings.forEach((jogador, indice) => {
+            const itemLista = document.createElement('li');
+            itemLista.textContent = `${indice + 1}. ${jogador.name} - ${jogador.score} pontos`;
+            listaRanking.appendChild(itemLista);
         });
     }
 
     function iniciarJogo() {
         menu.style.display = 'none';
-        gameOverScreen.style.display = 'none';
-        gameScreen.style.display = 'flex';
+        telaFimDeJogo.style.display = 'none';
+        telaJogo.style.display = 'flex';
 
-        score = 0;
-        initialTime = 5;
+        pontos = 0;
+        tempoInicial = 5;
         
-        startNewRound();
+        iniciarNovaRodada();
     }
 
-    rankButton.addEventListener('click', () => {
-        updateRankingDisplay();
-        rankModal.style.display = 'flex';
+    botaoRanking.addEventListener('click', () => {
+        atualizarExibicaoRanking();
+        modalRanking.style.display = 'flex';
     });
 
-    howToPlayButton.addEventListener('click', () => { howToPlayModal.style.display = 'flex'; });
+    botaoComoJogar.addEventListener('click', () => { 
+        modalComoJogar.style.display = 'flex'; 
+    });
     
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            rankModal.style.display = 'none';
-            howToPlayModal.style.display = 'none';
+    botoesFechar.forEach(botao => {
+        botao.addEventListener('click', () => {
+            modalRanking.style.display = 'none';
+            modalComoJogar.style.display = 'none';
+            menu.style.display = 'flex';
         });
     });
 
-    playAgainButton.addEventListener('click', () => {
+    botaoJogarNovamente.addEventListener('click', () => {
         iniciarJogo();
     });
 
-    viewRankButton.addEventListener('click', () => {
-        gameOverScreen.style.display = 'none';
-        updateRankingDisplay();
-        rankModal.style.display = 'flex';
+    botaoVerRanking.addEventListener('click', () => {
+        telaFimDeJogo.style.display = 'none';
+        atualizarExibicaoRanking();
+        modalRanking.style.display = 'flex';
     });
     
-    startButton.addEventListener('click', () => {
-        userName = nameInput.value;
-        if (!userName) { alert("Por favor, insira seu nome para começar!"); return; }
-        
+    botaoIniciar.addEventListener('click', () => {
+        nomeJogador = campoNome.value;
+        if (!nomeJogador) { 
+            alert("Por favor, insira seu nome para começar!"); 
+            return; 
+        }
         iniciarJogo();
     });
 
-    cells.forEach(cell => { cell.addEventListener('click', checkColor); });
+    celulas.forEach(celula => { 
+        celula.addEventListener('click', verificarCor); 
+    });
     
-    function shuffleArray(array) {
+    function embaralharArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
 
-    function startNewRound() {
-        clearInterval(timerInterval);
-        timeLeft = initialTime;
-        updateDisplay();
-        let colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "gray"];
-        const colorNames = {
+    function iniciarNovaRodada() {
+        clearInterval(intervaloDoTimer);
+        tempoRestante = tempoInicial;
+        atualizarExibicao();
+
+        let cores = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "gray"];
+        const nomesDasCores = {
             red: "VERMELHO", green: "VERDE", blue: "AZUL", yellow: "AMARELO",
             orange: "LARANJA", purple: "ROXO", pink: "ROSA", brown: "MARROM", gray: "CINZA"
         };
-        shuffleArray(colors);
-        cells.forEach((cell, index) => {
-            const color = colors[index];
-            cell.setAttribute('data-color', color);
-            cell.style.backgroundColor = color;
+        
+        embaralharArray(cores);
+
+        celulas.forEach((celula, indice) => {
+            const cor = cores[indice];
+            celula.setAttribute('data-color', cor);
+            celula.style.backgroundColor = cor;
         });
-        currentColor = colors[Math.floor(Math.random() * colors.length)];
-        colorNameDisplay.textContent = colorNames[currentColor];
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateDisplay();
-            if (timeLeft <= 0) { endGame(); }
+
+        corAtual = cores[Math.floor(Math.random() * cores.length)];
+        exibicaoNomeCor.textContent = nomesDasCores[corAtual];
+
+        intervaloDoTimer = setInterval(() => {
+            tempoRestante--;
+            atualizarExibicao();
+            if (tempoRestante <= 0) { 
+                finalizarJogo(); 
+            }
         }, 1000);
     }
 
-    function checkColor(event) {
-        if (timeLeft <= 0) return;
-        const selectedColor = event.target.getAttribute('data-color');
-        if (selectedColor === currentColor) {
-            score++;
-            if (score > 0 && score % 5 === 0) { initialTime = Math.max(2, initialTime - 1); }
+    function verificarCor(evento) {
+        if (tempoRestante <= 0) return;
+
+        const corSelecionada = evento.target.getAttribute('data-color');
+        if (corSelecionada === corAtual) {
+            pontos++;
+            if (pontos > 0 && pontos % 5 === 0) { 
+                tempoInicial = Math.max(0.5, tempoInicial - 1); 
+            }
         } else {
-            score = Math.max(0, score - 1);
+            pontos = Math.max(0, pontos - 1);
         }
-        startNewRound();
+        iniciarNovaRodada();
     }
 
-    function updateDisplay() {
-        scoreDisplay.textContent = `Pontuação: ${score}`;
-        timeDisplay.textContent = `Tempo: ${timeLeft}s`;
+    function atualizarExibicao() {
+        exibicaoPontos.textContent = `Pontuação: ${pontos}`;
+        exibicaoTempo.textContent = `Tempo: ${tempoRestante}s`;
     }
 
-    function endGame() {
-        clearInterval(timerInterval);
-        saveScore(userName, score);
-        finalScoreDisplay.textContent = score;
+    function finalizarJogo() {
+        clearInterval(intervaloDoTimer);
+        salvarPontuacao(nomeJogador, pontos);
+        exibicaoPontosFinais.textContent = pontos;
         
-        gameScreen.style.display = 'none';
-        gameOverScreen.style.display = 'flex';
+        telaJogo.style.display = 'none';
+        telaFimDeJogo.style.display = 'flex';
     }
 
-    updateRankingDisplay();
+    atualizarExibicaoRanking();
 
 });
