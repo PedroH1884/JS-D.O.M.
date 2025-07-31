@@ -17,7 +17,12 @@
     -E necessario somente colocar seu nome e apertar o botão Começar na tela de inicio.
 
 # Referencias
-    -
+    -https://www.w3schools.com/js/
+    -https://www.w3schools.com/css/
+    -https://www.youtube.com/watch?v=vEwPnjqWQ-g&list=PL2Fdisxwzt_d590u3uad46W-kHA0PTjjw
+    -Google Gemini
+    -Chat GPT
+    
 # Licença
     MIT License
 

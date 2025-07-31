@@ -11,10 +11,30 @@
 <body>
     <div class="menu">
         <h1>Jogo das Cores</h1>
-        <p>"Para iniciar aperte o botão  Jogar abaixo"</p><br>
+        <p>"Para iniciar aperte o botão Jogar abaixo"</p><br>
         <button id="rank">Tabela de Rankings</button><br>
         <button id="comojogar">Como jogar</button><br><br>
-        <button id="iniciar" onclick="window.location.href='jogocores'">JOGAR</button>
+        <input id="nome" type="text" placeholder="Insira seu Nome!"><br>
+        <button id="iniciar">JOGAR</button> 
+    </div>
+
+    <div id="game" class="game">
+        <div class="header">
+            <span id="score">Pontuação: 0</span>
+            <span id="color-name">Cor</span>
+            <span id="time">Tempo: 5s</span>
+        </div>
+        <div class="grid">
+            <div class="cell" data-color="red" style="background-color: red;"></div>
+            <div class="cell" data-color="green" style="background-color: green;"></div>
+            <div class="cell" data-color="blue" style="background-color: blue;"></div>
+            <div class="cell" data-color="yellow" style="background-color: yellow;"></div>
+            <div class="cell" data-color="orange" style="background-color: orange;"></div>
+            <div class="cell" data-color="purple" style="background-color: purple;"></div>
+            <div class="cell" data-color="pink" style="background-color: pink;"></div>
+            <div class="cell" data-color="brown" style="background-color: brown;"></div>
+            <div class="cell" data-color="gray" style="background-color: gray;"></div>
+        </div>
     </div>
 
     <div id="janela1" class="janela">
@@ -28,13 +48,24 @@
             </ul>
         </div>
     </div>
+
     <div id="janela2" class="janela">
         <div class="comojogar">
             <span class="fechar">x</span>
             <h2>Como jogar</h2>
-            <p>-Para iniciar o jogador deve colocar seu nome e apertar no botão Jogar na tela de inicio.</p>
-            <p>-O nome de uma cor aleatoria ira aparecer na parte superior e o jogador deve selecionar a cor correspondente a ela no grid no tempo determinado.</p>  
-            <p>-Ao perder o jogador tem a opção de começar novamente ou visualizar seu ranking.</p>
+            <p>- Para iniciar o jogador deve colocar seu nome e apertar no botão Jogar na tela de inicio.</p>
+            <p>- O nome de uma cor aleatória irá aparecer na parte superior e o jogador deve selecionar a cor correspondente a ela no grid no tempo determinado.</p>
+            <p>- Ao perder o jogador tem a opção de começar novamente ou visualizar seu ranking.</p>
+        </div>
+    </div>
+    
+    <div id="game-over-screen" class="game-over">
+        <h2>Fim de Jogo!</h2>
+        <p>Sua pontuação final foi:</p>
+        <span id="final-score">0</span>
+        <div class="game-over-options">
+            <button id="play-again-button">Jogar Novamente</button>
+            <button id="view-rank-button">Ver Ranking</button>
         </div>
     </div>
 
